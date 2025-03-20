@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Cadastrar Veículo{% endblock %}
+{% block content %}
+<h2>Cadastrar Veículo</h2>
+<form method="post">
+  <div class="form-group">
+    <label>Frota:</label>
+    <input type="text" name="frota" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Placa:</label>
+    <input type="text" name="placa" class="form-control" oninput="formatPlaca(this)" required>
+  </div>
+  <div class="form-group">
+    <label>Eixos:</label>
+    <input type="number" name="eixos" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Piso:</label>
+    <select name="piso" class="form-control">
+      <option value="FERRO">FERRO</option>
+      <option value="MADEIRA">MADEIRA</option>
+      <option value="MISTO">MISTO</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Tipo de Carreta:</label>
+    <input type="text" name="tipo_carreta" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Comprimento:</label>
+    <input type="text" name="comprimento" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Documento:</label>
+    <select name="documento" class="form-control">
+      <option value="Sim">Sim</option>
+      <option value="Não" selected>Não</option>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Salvar</button>
+  <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Alugar Veículo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h1>Alugar Veículo - {{ vehicle['frota'] }} / {{ vehicle['placa'] }}</h1>
+      <form method="post">
+        <div class="form-group">
+          <label>Possuidor (Empresa):</label>
+          <select name="possuidor" class="form-control" required>
+            <option value="">Selecione uma empresa</option>
+            {% for company in companies %}
+              <option value="{{ company['razao_social'] }}">{{ company['razao_social'] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Local:</label>
+          <input type="text" name="local" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Data de Locação:</label>
+          <input type="date" name="data_locacao" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+  </body>
+</html>

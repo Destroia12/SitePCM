@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Criar Novo Usuário{% endblock %}
+{% block content %}
+<h2>Criar Novo Usuário</h2>
+<form method="post">
+  <div class="form-group">
+    <label>Login:</label>
+    <input type="text" name="login" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Senha:</label>
+    <input type="password" name="senha" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Permissão:</label>
+    <select name="role" class="form-control">
+      <option value="comum">Comum</option>
+      <option value="admin">Admin</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Empresa:</label>
+    <input type="text" name="empresa" class="form-control" value="{{ session.get('empresa') }}" readonly>
+  </div>
+  <button type="submit" class="btn btn-primary">Criar Usuário</button>
+  <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

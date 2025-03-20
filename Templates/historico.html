@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Histórico de Fechamento{% endblock %}
+{% block content %}
+<h1>Histórico de Fechamento</h1>
+<form method="get" action="{{ url_for('historico') }}" class="mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <label>Data Inicial:</label>
+      <input type="date" name="data_inicial" class="form-control" value="{{ data_inicial }}">
+    </div>
+    <div class="col-md-4">
+      <label>Data Final:</label>
+      <input type="date" name="data_final" class="form-control" value="{{ data_final }}">
+    </div>
+    <div class="col-md-4">
+      <label>&nbsp;</label><br>
+      <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+  </div>
+</form>
+{% if historico|length == 0 %}
+  <p>Nenhum aluguel finalizado.</p>
+{% else %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Frota</th>
+      <th>Placa</th>
+      <th>Possuidor</th>
+      <th>Local</th>
+      <th>Data Locação</th>
+      <th>Data Devolução</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in historico %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ item['frota'] }}</td>
+      <td>{{ item['placa'] }}</td>
+      <td>{{ item['possuidor'] }}</td>
+      <td>{{ item['local'] }}</td>
+      <td>{{ item['data_locacao'] }}</td>
+      <td>{{ item['data_devolucao'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p>Total de registros: {{ historico|length }}</p>
+{% endif %}
+<a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

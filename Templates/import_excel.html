@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Importar Base de Dados de Veículos{% endblock %}
+{% block content %}
+<h1>Importar Base de Dados de Veículos</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<form method="post" enctype="multipart/form-data">
+  <div class="form-group">
+    <label>Selecione o arquivo Excel:</label>
+    <input type="file" name="excel_file" class="form-control" accept=".xlsx,.xls">
+  </div>
+  <button type="submit" class="btn btn-primary">Importar</button>
+  <a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+</form>
+{% endblock %}

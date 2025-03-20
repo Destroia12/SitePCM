@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Cadastro de Empresas{% endblock %}
+{% block head %}
+<script>
+  function formatCNPJ(input) {
+    let value = input.value.replace(/\D/g, '');
+    if (value.length > 14) value = value.substring(0, 14);
+    if (value.length > 2)
+      value = value.slice(0, 2) + '.' + value.slice(2);
+    if (value.length > 6)
+      value = value.slice(0, 6) + '.' + value.slice(6);
+    if (value.length > 10)
+      value = value.slice(0, 10) + '/' + value.slice(10);
+    if (value.length > 15)
+      value = value.slice(0, 15) + '-' + value.slice(15);
+    input.value = value;
+  }
+</script>
+{% endblock %}
+{% block content %}
+<h2>Cadastro de Empresas</h2>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<form method="post">
+  <div class="form-group">
+    <label>CNPJ:</label>
+    <input type="text" id="cnpj" name="cnpj" class="form-control" oninput="formatCNPJ(this)" required>
+  </div>
+  <div class="form-group">
+    <label>Razão Social:</label>
+    <input type="text" name="razao_social" class="form-control" required>
+  </div>
+  <div class="form-group">
+    <label>Inscrição Estadual:</label>
+    <input type="text" name="inscricao_estadual" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Local:</label>
+    <input type="text" name="local" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Número:</label>
+    <input type="text" name="numero" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Telefone:</label>
+    <input type="text" name="telefone" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>E-mail:</label>
+    <input type="email" name="email" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Salvar Empresa</button>
+</form>
+<hr>
+<h3>Empresas Cadastradas</h3>
+{% if empresas|length == 0 %}
+  <p>Nenhuma empresa cadastrada.</p>
+{% else %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>CNPJ</th>
+      <th>Razão Social</th>
+      <th>Inscrição Estadual</th>
+      <th>Local</th>
+      <th>Número</th>
+      <th>Telefone</th>
+      <th>E-mail</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for empresa in empresas %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ empresa['cnpj'] }}</td>
+      <td>{{ empresa['razao_social'] }}</td>
+      <td>{{ empresa['inscricao_estadual'] }}</td>
+      <td>{{ empresa['local'] }}</td>
+      <td>{{ empresa['numero'] }}</td>
+      <td>{{ empresa['telefone'] }}</td>
+      <td>{{ empresa['email'] }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+<a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

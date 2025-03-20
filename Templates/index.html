@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Lista de Veículos{% endblock %}
+{% block content %}
+<h1>Lista de Veículos</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<form method="get" action="{{ url_for('index') }}" class="mb-3">
+  <div class="form-group">
+    <label>Buscar por Placa de Carreta:</label>
+    <input type="text" name="placa" class="form-control" value="{{ placa_search }}">
+  </div>
+  <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+{% if vehicles|length == 0 %}
+  <p>Nenhum veículo cadastrado.</p>
+{% else %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Frota</th>
+      <th>Placa</th>
+      <th>Eixos</th>
+      <th>Piso</th>
+      <th>Tipo de Carreta</th>
+      <th>Comprimento</th>
+      <th>Documento</th>
+      <th>Status</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for vehicle in vehicles %}
+    <tr class="{% if vehicle['status'] == 'Ativo' %}table-danger{% else %}table-success{% endif %}">
+      <td>{{ loop.index }}</td>
+      <td>{{ vehicle['frota'] }}</td>
+      <td>{{ vehicle['placa'] }}</td>
+      <td>{{ vehicle['eixos'] }}</td>
+      <td>{{ vehicle['piso'] }}</td>
+      <td>{{ vehicle['tipo_carreta'] }}</td>
+      <td>{{ vehicle['comprimento'] }}</td>
+      <td>{{ vehicle['documento'] }}</td>
+      <td>{{ vehicle['status'] }}</td>
+      <td>
+        <a href="{{ url_for('edit_vehicle', vehicle_id=vehicle['id']) }}" class="btn btn-sm btn-warning">Editar</a>
+        <form action="{{ url_for('delete_vehicle', vehicle_id=vehicle['id']) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+        </form>
+        <a href="{{ url_for('rent_vehicle', vehicle_id=vehicle['id']) }}" class="btn btn-sm btn-info">Alugar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<p>Total de veículos: {{ vehicles|length }}</p>
+{% endif %}
+{% endblock %}

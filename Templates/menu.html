@@ -1,0 +1,48 @@
+<!-- menu.html -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Sistema de Carretas</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" 
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('index') }}">Lista de Veículos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('add_vehicle') }}">Cadastrar Veículo</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('import_excel') }}">Importar Excel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('cadastro_empresas') }}">Cadastro de Empresas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('rentals') }}">Veículos Alugados</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('historico') }}">Histórico de Fechamento</a>
+        </li>
+        {% if session.get('role') == 'admin' %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button"
+             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Gerenciar Usuários
+          </a>
+          <div class="dropdown-menu" aria-labelledby="adminDropdown">
+            <a class="dropdown-item" href="{{ url_for('dashboard') }}">Gerenciamento</a>
+            <a class="dropdown-item" href="{{ url_for('create_user') }}">Criar Novo Usuário</a>
+            <a class="dropdown-item" href="{{ url_for('meu_perfil') }}">Meu Perfil</a>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+      <span class="navbar-text mr-3">
+        {{ session.get('login') }} ({{ session.get('empresa') }})
+      </span>
+      <a class="btn btn-outline-light" href="{{ url_for('logout') }}">Sair</a>
+    </div>
+  </nav>
+  

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Gerenciamento de Usuários{% endblock %}
+{% block content %}
+<h2>Gerenciamento de Usuários</h2>
+<p>Bem-vindo, {{ session['login'] }} ({{ session['empresa'] }})</p>
+<div class="mb-3">
+  <a href="{{ url_for('create_user') }}" class="btn btn-success">Criar Novo Usuário</a>
+  <a href="{{ url_for('meu_perfil') }}" class="btn btn-info">Meu Perfil</a>
+  <a href="{{ url_for('logout') }}" class="btn btn-secondary">Sair</a>
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+{% if users|length == 0 %}
+  <p>Nenhum usuário cadastrado.</p>
+{% else %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>ID</th>
+      <th>Login</th>
+      <th>Empresa</th>
+      <th>Permissão</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ user['id'] }}</td>
+      <td>{{ user['login'] }}</td>
+      <td>{{ user['empresa'] }}</td>
+      <td>{{ user['role'] }}</td>
+      <td>
+        <a href="{{ url_for('edit_user', user_id=user['id']) }}" class="btn btn-sm btn-warning">Editar</a>
+        <form action="{{ url_for('delete_user', user_id=user['id']) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+{% endblock %}
